@@ -10,7 +10,7 @@ public class BookRowMapper implements RowMapper<Book> {
     @Override
     public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Book(
-                rs.getLong("book_id"),
+                rs.getLong("id"),
                 rs.getString("isbn"),
                 rs.getString("title"),
                 rs.getString("publisher"),

@@ -17,10 +17,12 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author create(Author author) throws SQLException {
-        if (!findAuthorViaNameAge(author.getName(), author.getAge()).isEmpty())
+        
+        if (!findAuthorViaNameAge(author.getName(), author.getAge()).isEmpty()) {
             throw new SQLException(
                     "Author with name: %s and age: %s already exists"
                             .formatted(author.getName(), author.getAge()));
+        }
         jdbcTemplate.update(
                 "insert into authors(name, age) values (?,?);",
                 author.getName(), author.getAge()
@@ -59,14 +61,13 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public List<Author> findAuthorViaNameAge(String name, Integer age) throws SQLException {
-        List<Author> authorList = jdbcTemplate.query(
+	    //        if (authorList.isEmpty())
+//            throw new SQLException("Author with name: %s and age: %s not found".formatted(name, age));
+        return jdbcTemplate.query(
                 "select * from authors where name = ? and age = ?",
                 new AuthorRowMapper(),
                 name, age
         );
-        if (authorList.isEmpty())
-            throw new SQLException("Author with name: %s and age: %s not found".formatted(name, age));
-        return authorList;
     }
 
     @Override

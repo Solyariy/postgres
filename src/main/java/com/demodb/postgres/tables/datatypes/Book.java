@@ -1,6 +1,7 @@
 package com.demodb.postgres.tables.datatypes;
 
 
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -8,8 +9,12 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "books")
 public class Book {
-    private Long bookId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String isbn;
     private String title;
     private String publisher;

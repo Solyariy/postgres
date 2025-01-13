@@ -6,6 +6,7 @@ import com.demodb.postgres.tables.dao.rowmappers.AuthorRowMapper;
 import com.demodb.postgres.tables.dao.rowmappers.BookRowMapper;
 import com.demodb.postgres.tables.datatypes.Author;
 import com.demodb.postgres.tables.datatypes.Book;
+import com.demodb.postgres.tables.services.customizers.Str;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.SQLException;
@@ -21,20 +22,52 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Book create(Book book) throws SQLException {
-        return new Book();
-    }
-
-    @Override
-    public void update(String isbn, String title, String publisher, Long authorId) throws SQLException {
-        findViaIsbn(isbn);
-        authorDao.findViaId(authorId);
+    public void create(Book book) throws SQLException {
         jdbcTemplate.update(
-                "update books set title = ?, publisher = ?, author_id = ? where isbn = ?",
-                title, publisher, authorId, isbn
+                "insert into books(isbn, title, publisher, author_id) values (?,?,?,?)",
+                book.getIsbn(), book.getTitle(), book.getPublisher(), book.getAuthorId()
         );
     }
-
+    
+    @Override
+    public void update(String isbn, List<Str> params) throws SQLException {
+        findViaIsbn(isbn);
+        int counter = 1;
+        StringBuilder query = new StringBuilder("update books set ");
+        
+        for (Str s: params) {
+            query.append(s.getName()).append(" = ?");
+            if (counter < params.size()) {
+                query.append(", ");
+                ++counter;
+            }
+        }
+        query.append(" where isbn = ?");
+        String queryFinal = query.toString();
+        
+        if (params.size() == 3) {
+            jdbcTemplate.update(
+                    queryFinal,
+                    params.get(0).getValue(),
+                    params.get(1).getValue(),
+                    params.get(2).getValue()
+            );
+        } else if (params.size() == 2) {
+            jdbcTemplate.update(
+                    queryFinal,
+                    params.get(0).getValue(),
+                    params.get(1).getValue()
+            );
+        } else if (params.size() == 1) {
+            jdbcTemplate.update(
+                    queryFinal,
+                    params.get(0).getValue()
+            );
+        }
+        
+    }
+    
+    
     @Override
     public void delete(String isbn) throws SQLException {
         findViaIsbn(isbn);

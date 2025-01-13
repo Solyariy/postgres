@@ -1,4 +1,4 @@
-package com.demodb.postgres.tables.services.сustomisers;
+package com.demodb.postgres.tables.services.customizers;
 
 public class Customizer {
 	static public String capitalize(String line) {
