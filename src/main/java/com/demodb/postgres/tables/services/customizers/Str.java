@@ -10,8 +10,4 @@ import lombok.Setter;
 public class Str {
 	private Object value;
 	private String name;
-//
-//	public Object getValue() {
-//		if (name.equals("author_id")) return Long.valueOf(value);
-//	}
 }

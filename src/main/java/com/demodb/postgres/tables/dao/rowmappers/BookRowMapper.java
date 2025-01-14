@@ -1,12 +1,9 @@
 package com.demodb.postgres.tables.dao.rowmappers;
 
 import com.demodb.postgres.tables.dao.intrface.AuthorDao;
-import com.demodb.postgres.tables.datatypes.Author;
 import com.demodb.postgres.tables.datatypes.Book;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

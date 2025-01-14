@@ -22,7 +22,7 @@ public class BookController {
 	public ResponseEntity<Object> get(@PathVariable String wayOfSearch,
 	                                  @RequestParam(required = false) String param) {
 		try {
-			if (param != null && wayOfSearch.equals("authors")){
+			if (param != null && wayOfSearch.equals("authors")) {
 				return ResponseEntity.ok(bookService.getAuthorViaTitle(param));
 			}
 			return ResponseEntity.ok(bookService.searchBook(wayOfSearch, param));

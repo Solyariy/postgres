@@ -2,7 +2,6 @@ package com.demodb.postgres.tables.dao.impl;
 
 import com.demodb.postgres.tables.dao.intrface.AuthorDao;
 import com.demodb.postgres.tables.dao.intrface.BookDao;
-import com.demodb.postgres.tables.dao.rowmappers.AuthorRowMapper;
 import com.demodb.postgres.tables.dao.rowmappers.BookRowMapper;
 import com.demodb.postgres.tables.datatypes.Author;
 import com.demodb.postgres.tables.datatypes.Book;
