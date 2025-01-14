@@ -9,5 +9,5 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto:
+      ddl-auto: create
     database: postgresql

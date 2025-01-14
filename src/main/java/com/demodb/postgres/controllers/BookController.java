@@ -51,14 +51,14 @@ public class BookController {
 	
 	@PutMapping("/update")
 	public ResponseEntity<Object> update(@RequestParam(required = false) String isbn,
-	                                     @RequestParam(required = false) String titleNew,
-	                                     @RequestParam(required = false) String pubNew,
-	                                     @RequestParam(required = false) String authorIdNew) {
+	                                     @RequestParam(required = false) String title,
+	                                     @RequestParam(required = false) String pub,
+	                                     @RequestParam(required = false) String aid) {
 		try {
 			bookService.update(isbn, List.of(
-					new Str(titleNew, "title"),
-					new Str(pubNew, "publisher"),
-					new Str(authorIdNew, "author_id")
+					new Str(title, "title"),
+					new Str(pub, "publisher"),
+					new Str(aid, "author_id")
 			));
 			return ResponseEntity.ok("Ok");
 		} catch (SQLException | IllegalArgumentException e) {

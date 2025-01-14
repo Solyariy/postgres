@@ -23,6 +23,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void create(Book book) throws SQLException {
+        authorDao.findViaId(book.getAuthorId());
         jdbcTemplate.update(
                 "insert into books(isbn, title, publisher, author_id) values (?,?,?,?)",
                 book.getIsbn(), book.getTitle(), book.getPublisher(), book.getAuthorId()
@@ -50,18 +51,21 @@ public class BookDaoImpl implements BookDao {
                     queryFinal,
                     params.get(0).getValue(),
                     params.get(1).getValue(),
-                    params.get(2).getValue()
+                    params.get(2).getValue(),
+                    isbn
             );
         } else if (params.size() == 2) {
             jdbcTemplate.update(
                     queryFinal,
                     params.get(0).getValue(),
-                    params.get(1).getValue()
+                    params.get(1).getValue(),
+                    isbn
             );
         } else if (params.size() == 1) {
             jdbcTemplate.update(
                     queryFinal,
-                    params.get(0).getValue()
+                    params.get(0).getValue(),
+                    isbn
             );
         }
         

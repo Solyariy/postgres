@@ -1,8 +1,14 @@
 package com.demodb.postgres.tables.datatypes;
 
 
+import com.demodb.postgres.tables.dao.impl.AuthorDaoImpl;
+import com.demodb.postgres.tables.dao.intrface.AuthorDao;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.sql.SQLException;
 
 @Getter
 @Setter
@@ -19,6 +25,10 @@ public class Book {
     private String title;
     private String publisher;
     private Long authorId;
+    @Transient
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
 
     public Book(String isbn, String title, String publisher, Long authorId) {
         this.isbn = isbn;
@@ -26,5 +36,12 @@ public class Book {
         this.publisher = publisher;
         this.authorId = authorId;
     }
-
+    
+    public Book(Long id, String isbn, String title, String publisher, Long authorId) {
+        this.id = id;
+        this.isbn = isbn;
+        this.title = title;
+        this.publisher = publisher;
+        this.authorId = authorId;
+    }
 }
