@@ -10,6 +10,7 @@ import com.demodb.postgres.tables.services.customizers.Str;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookDaoImpl implements BookDao {
@@ -80,14 +81,14 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> getAll() {
-        return jdbcTemplate.query("select * from books", new BookRowMapper());
+        return jdbcTemplate.query("select * from books", new BookRowMapper(authorDao));
     }
 
     @Override
     public List<Book> findBookViaTitle(String title) throws SQLException {
         List<Book> bookList = jdbcTemplate.query(
                 "select * from books where title = ?",
-                new BookRowMapper(),
+                new BookRowMapper(authorDao),
                 title
         );
         if (bookList.isEmpty())
@@ -99,7 +100,7 @@ public class BookDaoImpl implements BookDao {
     public List<Book> findViaIsbn(String isbn) throws SQLException {
         List<Book> bookList = jdbcTemplate.query(
                 "select * from books where isbn = ?",
-                new BookRowMapper(),
+                new BookRowMapper(authorDao),
                 isbn
         );
         if (bookList.isEmpty()) {
@@ -112,7 +113,7 @@ public class BookDaoImpl implements BookDao {
     public List<Book> findViaAuthorId(Long authorId) throws SQLException {
         List<Book> bookList = jdbcTemplate.query(
                 "select * from books where author_id = ?",
-                new BookRowMapper(),
+                new BookRowMapper(authorDao),
                 authorId
         );
         if (bookList.isEmpty()) {
@@ -125,7 +126,7 @@ public class BookDaoImpl implements BookDao {
     public List<Book> findViaPublisher(String publisher) throws SQLException {
         List<Book> bookList = jdbcTemplate.query(
                 "select * from books where publisher = ?",
-                new BookRowMapper(),
+                new BookRowMapper(authorDao),
                 publisher
         );
         if (bookList.isEmpty()) {
@@ -136,11 +137,16 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Author> findAuthorsViaTitle(String title) throws SQLException {
-        return jdbcTemplate.query(
-                "select * from authors where id = ?",
-                new AuthorRowMapper(),
-                findBookViaTitle(title).get(0).getAuthorId()
+        List<Long> idlist = jdbcTemplate.query(
+                "select author_id from books where title = ?",
+                ((rs, intRow) -> rs.getLong("author_id")),
+                title
         );
+        List<Author> authorList = new ArrayList<>();
+        for (Long id: idlist) {
+            authorList.add(authorDao.findViaId(id).get(0));
+        }
+        return authorList;
     }
 
 

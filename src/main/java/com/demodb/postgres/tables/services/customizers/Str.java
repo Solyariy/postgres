@@ -8,7 +8,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class Str {
-	private String value;
+	private Object value;
 	private String name;
-	
+//
+//	public Object getValue() {
+//		if (name.equals("author_id")) return Long.valueOf(value);
+//	}
 }

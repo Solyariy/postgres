@@ -24,18 +24,27 @@ public class Book {
     private String isbn;
     private String title;
     private String publisher;
-    private Long authorId;
-    @Transient
+    @Getter
     @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;
+    @Transient
+    private Long authorId;
 
-    public Book(String isbn, String title, String publisher, Long authorId) {
-        this.isbn = isbn;
-        this.title = title;
-        this.publisher = publisher;
-        this.authorId = authorId;
-    }
+//    public Book(String isbn, String title, String publisher, Long authorId) {
+//        this.isbn = isbn;
+//        this.title = title;
+//        this.publisher = publisher;
+//        this.authorId = authorId;
+//    }
+//
+//    public Book(Long id, String isbn, String title, String publisher, Author author) {
+//        this.id = id;
+//        this.isbn = isbn;
+//        this.title = title;
+//        this.publisher = publisher;
+//        this.author = author;
+//    }
     
     public Book(Long id, String isbn, String title, String publisher, Long authorId) {
         this.id = id;

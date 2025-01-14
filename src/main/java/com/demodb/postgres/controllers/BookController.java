@@ -22,6 +22,9 @@ public class BookController {
 	public ResponseEntity<Object> get(@PathVariable String wayOfSearch,
 	                                  @RequestParam(required = false) String param) {
 		try {
+			if (param != null && wayOfSearch.equals("authors")){
+				return ResponseEntity.ok(bookService.getAuthorViaTitle(param));
+			}
 			return ResponseEntity.ok(bookService.searchBook(wayOfSearch, param));
 		} catch (SQLException e) {
 			return errorHandler.handleError(e);
@@ -53,7 +56,7 @@ public class BookController {
 	public ResponseEntity<Object> update(@RequestParam(required = false) String isbn,
 	                                     @RequestParam(required = false) String title,
 	                                     @RequestParam(required = false) String pub,
-	                                     @RequestParam(required = false) String aid) {
+	                                     @RequestParam(required = false) Long aid) {
 		try {
 			bookService.update(isbn, List.of(
 					new Str(title, "title"),
