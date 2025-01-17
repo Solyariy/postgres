@@ -1,9 +1,9 @@
 package com.demodb.postgres.security.user.requests;
 
+import com.demodb.postgres.security.securityConfig.Encoder;
 import com.demodb.postgres.security.user.AppUser;
 import com.demodb.postgres.tables.services.customizers.Customizer;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class AppUserRequestService {
 	
 	private final AppUserRequestDao requestDao;
-	private final BCryptPasswordEncoder encoder;
+	private final Encoder encoder;
 	
 	public void create(AppUser appUser) {
 		appUser.setEmail(appUser.getEmail().toLowerCase());
