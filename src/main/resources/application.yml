@@ -11,3 +11,6 @@ spring:
     hibernate:
       ddl-auto: update
     database: postgresql
+logging:
+  level:
+    org.springframework.security: TRACE
